@@ -48,6 +48,11 @@ namespace Exiled.API.Interfaces
         Dictionary<Type, Dictionary<Type, ICommand>> Commands { get; }
 
         /// <summary>
+        /// Gets the auto subscribed plugin events.
+        /// </summary>
+        Dictionary<Type, List<MethodInfo>> AutoSubscribers { get; }
+
+        /// <summary>
         /// Gets the plugin priority.
         /// Higher values mean higher priority and vice versa.
         /// </summary>

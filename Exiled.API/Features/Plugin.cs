@@ -12,7 +12,7 @@ namespace Exiled.API.Features
     using System.Reflection;
 
     using CommandSystem;
-
+    using Exiled.API.Attributes;
     using Exiled.API.Enums;
     using Exiled.API.Extensions;
     using Exiled.API.Interfaces;
@@ -67,10 +67,34 @@ namespace Exiled.API.Features
         };
 
         /// <inheritdoc/>
+        public Dictionary<Type, List<MethodInfo>> AutoSubscribers { get; } = new Dictionary<Type, List<MethodInfo>>();
+
+        /// <inheritdoc/>
         public TConfig Config { get; } = new TConfig();
 
         /// <inheritdoc/>
-        public virtual void OnEnabled() => Log.Info($"{Name} v{Version.Major}.{Version.Minor}.{Version.Build}, made by {Author}, has been enabled!");
+        public virtual void OnEnabled()
+        {
+            Log.Debug($"Registering events...");
+            foreach (Type type in Assembly.GetTypes())
+            {
+                foreach (MethodInfo info in type.GetMethods())
+                {
+                    foreach (ParameterInfo param in info.GetParameters())
+                    {
+                        if (param.ParameterType == typeof(EventArgs))
+                        {
+                            if (!AutoSubscribers.ContainsKey(param.ParameterType))
+                                AutoSubscribers.Add(param.ParameterType, new List<MethodInfo>());
+                            if (!AutoSubscribers[param.ParameterType].Contains(info))
+                                AutoSubscribers[param.ParameterType].Add(info);
+                        }
+                    }
+                }
+            }
+
+            Log.Info($"{Name} v{Version.Major}.{Version.Minor}.{Version.Build}, made by {Author}, has been enabled!");
+        }
 
         /// <inheritdoc/>
         public virtual void OnDisabled() => Log.Info($"{Name} has been disabled!");

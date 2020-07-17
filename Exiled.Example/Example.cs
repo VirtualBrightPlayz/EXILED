@@ -52,7 +52,7 @@ namespace Exiled.Example
             Events.Handlers.Server.WaitingForPlayers += server.OnWaitingForPlayers;
             Events.Handlers.Server.EndingRound += server.OnEndingRound;
 
-            Events.Handlers.Player.Died += player.OnDied;
+            //Events.Handlers.Player.Died += player.OnDied;
             Events.Handlers.Player.ChangingRole += player.OnChangingRole;
             Events.Handlers.Player.ChangingItem += player.OnChangingItem;
         }
@@ -65,7 +65,7 @@ namespace Exiled.Example
             Events.Handlers.Server.WaitingForPlayers -= server.OnWaitingForPlayers;
             Events.Handlers.Server.EndingRound -= server.OnEndingRound;
 
-            Events.Handlers.Player.Died -= player.OnDied;
+            //Events.Handlers.Player.Died -= player.OnDied;
             Events.Handlers.Player.ChangingRole -= player.OnChangingRole;
             Events.Handlers.Player.ChangingItem -= player.OnChangingItem;
 
